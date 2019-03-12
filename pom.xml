@@ -13,6 +13,7 @@
     <modules>
         <module>ad-eureka</module>
         <module>ad-gateway</module>
+        <module>lining-ad-service</module>
     </modules>
 
     <name>lining-ad-spring-cloud</name>
