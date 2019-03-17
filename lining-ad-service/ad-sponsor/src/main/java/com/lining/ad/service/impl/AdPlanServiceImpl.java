@@ -10,7 +10,7 @@ import com.lining.ad.exception.AdException;
 import com.lining.ad.service.IAdPlanService;
 import com.lining.ad.utils.CommonUtils;
 import com.lining.ad.vo.AdPlanGetRequest;
-import com.lining.ad.vo.AdPlanReponse;
+import com.lining.ad.vo.AdPlanResponse;
 import com.lining.ad.vo.AdPlanRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +43,7 @@ public class AdPlanServiceImpl implements IAdPlanService {
 
     @Override
     @Transactional
-    public AdPlanReponse createAdPlan(AdPlanRequest request) throws AdException {
+    public AdPlanResponse createAdPlan(AdPlanRequest request) throws AdException {
 
         //检查参数是否正确
         if (!request.createValidate()){
@@ -67,7 +67,7 @@ public class AdPlanServiceImpl implements IAdPlanService {
                 CommonUtils.parseStringDate(request.getStartDate()),
                 CommonUtils.parseStringDate(request.getEndDate())));
 
-        return new AdPlanReponse(newAdPlan.getId(), newAdPlan.getPlanName());
+        return new AdPlanResponse(newAdPlan.getId(), newAdPlan.getPlanName());
     }
 
     @Override
@@ -82,7 +82,7 @@ public class AdPlanServiceImpl implements IAdPlanService {
 
     @Override
     @Transactional
-    public AdPlanReponse updateAdPlan(AdPlanRequest request) throws AdException {
+    public AdPlanResponse updateAdPlan(AdPlanRequest request) throws AdException {
 
         if (!request.updateValidate()){
             throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
@@ -106,7 +106,7 @@ public class AdPlanServiceImpl implements IAdPlanService {
         plan.setUpdateTime(new Date());
         plan = planRepository.save(plan);
 
-        return new AdPlanReponse(plan.getId(), plan.getPlanName());
+        return new AdPlanResponse(plan.getId(), plan.getPlanName());
     }
 
     @Override

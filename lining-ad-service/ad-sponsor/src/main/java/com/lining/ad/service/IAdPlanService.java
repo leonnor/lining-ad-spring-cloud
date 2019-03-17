@@ -3,7 +3,7 @@ package com.lining.ad.service;
 import com.lining.ad.entity.AdPlan;
 import com.lining.ad.exception.AdException;
 import com.lining.ad.vo.AdPlanGetRequest;
-import com.lining.ad.vo.AdPlanReponse;
+import com.lining.ad.vo.AdPlanResponse;
 import com.lining.ad.vo.AdPlanRequest;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public interface IAdPlanService {
      * @return
      * @throws AdException
      */
-    AdPlanReponse createAdPlan(AdPlanRequest request) throws AdException;
+    AdPlanResponse createAdPlan(AdPlanRequest request) throws AdException;
 
     /**
      * 批量获取推广计划
@@ -40,7 +40,7 @@ public interface IAdPlanService {
      * @return
      * @throws AdException
      */
-    AdPlanReponse updateAdPlan(AdPlanRequest request) throws AdException;
+    AdPlanResponse updateAdPlan(AdPlanRequest request) throws AdException;
 
     /**
      * 删除推广计划
