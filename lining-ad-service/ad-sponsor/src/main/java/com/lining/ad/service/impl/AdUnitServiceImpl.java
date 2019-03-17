@@ -3,8 +3,13 @@ package com.lining.ad.service.impl;
 import com.lining.ad.constant.Constants;
 import com.lining.ad.dao.AdPlanRepository;
 import com.lining.ad.dao.AdUnitRepository;
+import com.lining.ad.dao.unit_condition.AdUnitDistrictRepository;
+import com.lining.ad.dao.unit_condition.AdUnitItRepository;
+import com.lining.ad.dao.unit_condition.AdUnitKeywordRepository;
 import com.lining.ad.entity.AdPlan;
 import com.lining.ad.entity.AdUnit;
+import com.lining.ad.entity.unit_condition.AdUnitIt;
+import com.lining.ad.entity.unit_condition.AdUnitKeyword;
 import com.lining.ad.exception.AdException;
 import com.lining.ad.service.IAdUnitService;
 import com.lining.ad.vo.*;
@@ -13,9 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * className AdUnitServiceImpl
@@ -35,10 +39,21 @@ public class AdUnitServiceImpl implements IAdUnitService {
 
     private final AdUnitRepository unitRepository;
 
+    private final AdUnitKeywordRepository unitKeywordRepository;
+
+    private final AdUnitItRepository unitItRepository;
+
+    private final AdUnitDistrictRepository unitDistrictRepository;
     @Autowired
-    public AdUnitServiceImpl(AdPlanRepository planRepository, AdUnitRepository unitRepository) {
+    public AdUnitServiceImpl(AdPlanRepository planRepository, AdUnitRepository unitRepository,
+                             AdUnitKeywordRepository unitKeywordRepository,
+                             AdUnitItRepository unitItRepository,
+                             AdUnitDistrictRepository unitDistrictRepository) {
         this.planRepository = planRepository;
         this.unitRepository = unitRepository;
+        this.unitKeywordRepository = unitKeywordRepository;
+        this.unitItRepository = unitItRepository;
+        this.unitDistrictRepository = unitDistrictRepository;
     }
 
     @Override
@@ -67,14 +82,48 @@ public class AdUnitServiceImpl implements IAdUnitService {
 
     @Override
     public AdUnitKeywordResponse createUnitKeyword(AdUnitKeywordRequest request) throws AdException {
+        //获取传入的全部id
+        List<Long> unitIds = request.getUnitKeywords().stream()
+                .map(AdUnitKeywordRequest.UnitKeyword::getUnitId)
+                .collect(Collectors.toList());
+        if (!isRelatedUnitExist(unitIds)){
+            throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
+        }
+        //用于存储保存的AdUnitKeyword主键
+        List<Long> ids = Collections.emptyList();
 
-        return null;
+        List<AdUnitKeyword> unitKeywords = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(request.getUnitKeywords())){
+
+            request.getUnitKeywords().forEach(i -> unitKeywords.add(
+                    new AdUnitKeyword(i.getUnitId(), i.getKeyword())
+            ));
+            ids = unitKeywordRepository.saveAll(unitKeywords).stream()
+                    .map(AdUnitKeyword::getId)
+                    .collect(Collectors.toList());
+        }
+        return new AdUnitKeywordResponse(ids);
     }
 
     @Override
-    public AdUnitItResponse createUnitIt(AdUnitRequest request) throws AdException {
+    public AdUnitItResponse createUnitIt(AdUnitItRequest request) throws AdException {
 
-        return null;
+        List<Long> unitIds = request.getUnitIts().stream()
+                .map(AdUnitItRequest.UnitIt::getUnitId)
+                .collect(Collectors.toList());
+
+        if (!isRelatedUnitExist(unitIds)) {
+            throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
+        }
+        List<AdUnitIt> unitIts = new ArrayList<>();
+        request.getUnitIts().forEach(i -> unitIts.add(
+                new AdUnitIt(i.getUnitId(), i.getItTag())
+        ));
+        List<Long> ids = unitItRepository.saveAll(unitIts).stream()
+                .map(AdUnitIt::getId)
+                .collect(Collectors.toList());
+
+        return new AdUnitItResponse(ids);
     }
 
     @Override
