@@ -8,6 +8,7 @@ import com.lining.ad.dao.unit_condition.AdUnitItRepository;
 import com.lining.ad.dao.unit_condition.AdUnitKeywordRepository;
 import com.lining.ad.entity.AdPlan;
 import com.lining.ad.entity.AdUnit;
+import com.lining.ad.entity.unit_condition.AdUnitDistrict;
 import com.lining.ad.entity.unit_condition.AdUnitIt;
 import com.lining.ad.entity.unit_condition.AdUnitKeyword;
 import com.lining.ad.exception.AdException;
@@ -129,7 +130,21 @@ public class AdUnitServiceImpl implements IAdUnitService {
     @Override
     public AdUnitDistrictResponse createUnitDistrict(AdUnitDistrictRequest request) throws AdException {
 
-        return null;
+        List<Long> unitIds = request.getUnitDistricts().stream()
+                .map(AdUnitDistrictRequest.UnitDistrict::getUnitId)
+                .collect(Collectors.toList());
+        if (!isRelatedUnitExist(unitIds)){
+            throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
+        }
+
+        List<AdUnitDistrict> unitDistricts = new ArrayList<>();
+        request.getUnitDistricts().forEach(d -> unitDistricts.add(
+                new AdUnitDistrict(d.getUnitId(), d.getProvince(), d.getCity())
+        ));
+        List<Long> ids = unitDistrictRepository.saveAll(unitDistricts).stream()
+                .map(AdUnitDistrict::getId)
+                .collect(Collectors.toList());
+        return new AdUnitDistrictResponse(ids);
     }
 
     /** 判断相关推广单元是否存在*/
