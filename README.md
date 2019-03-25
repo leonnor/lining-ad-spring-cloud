@@ -19,4 +19,7 @@
     Submodule of Advertising System: Advertising Playing System
     广告投放系统已完成
     Advertising delivery system completed
-    
+#### ad-search
+    广告系统子模块：广告检索系统
+    Submodule of Advertising System: Advertising Searching System
+    主要功能：提供给请求方（媒体方）根据请求信息返回对应的创意信息
