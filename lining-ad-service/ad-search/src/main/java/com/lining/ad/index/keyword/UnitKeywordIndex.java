@@ -89,6 +89,7 @@ public class UnitKeywordIndex implements IndexAware<String, Set<Long>> {
          */
         Set<Long> unitIds = CommonUtils.getorCreate(key, keywordUnitMap, ConcurrentSkipListSet::new);
         unitIds.removeAll(value);
+
         for (Long unitId : value){
             Set<String> keywordSet = CommonUtils.getorCreate(unitId, unitKeywordMap,
                     ConcurrentSkipListSet::new);

@@ -1,4 +1,4 @@
-package com.lining.ad.Controller;
+package com.lining.ad.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.lining.ad.annotation.IgnoreResponseAdvice;
