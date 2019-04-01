@@ -23,7 +23,7 @@ public class DataTable implements ApplicationContextAware, PriorityOrdered {
 
     private static ApplicationContext applicationContext;
 
-    public static final Map<Class, Object> dataTableMap = new ConcurrentHashMap<>();
+    private static final Map<Class, Object> dataTableMap = new ConcurrentHashMap<>();
 
     /**
      * 通过应用程序上下文得到当前容器中已初始化的各个组件和Bean
