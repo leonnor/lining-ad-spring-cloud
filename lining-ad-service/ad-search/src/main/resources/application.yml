@@ -16,7 +16,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/ad_data?autoReconnect=true
     username: root
-    password: 958978379
+    password: root
     tomcat:
       max-active: 4
       min-idle: 2

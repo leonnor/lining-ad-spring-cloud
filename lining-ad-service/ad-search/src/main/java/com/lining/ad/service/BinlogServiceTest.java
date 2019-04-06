@@ -22,7 +22,7 @@ public class BinlogServiceTest {
                 "127.0.0.1",
                 3306,
                 "root",
-                "958978379"
+                "root"
         );
         client.registerEventListener(event -> {
 
