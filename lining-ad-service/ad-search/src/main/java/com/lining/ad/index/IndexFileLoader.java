@@ -46,7 +46,6 @@ public class IndexFileLoader {
                 JSON.parseObject(p, AdPlanTable.class),
                 OpType.ADD
         ));
-
         /** 第二层级（创意）全量索引加载*/
         List<String> adCreativeStrings = loadDumpData(
                 String.format("%s%s",
