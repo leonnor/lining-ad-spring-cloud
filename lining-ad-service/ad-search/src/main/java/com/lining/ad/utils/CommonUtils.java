@@ -1,5 +1,13 @@
-package com.lining.ad.untils;
+package com.lining.ad.utils;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.time.DateUtils;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -11,6 +19,7 @@ import java.util.function.Supplier;
  * @version 1.0
  * @date 2019/3/27 18:52
  */
+@Slf4j
 public class CommonUtils {
 
     /**
@@ -40,5 +49,29 @@ public class CommonUtils {
         }
         result.deleteCharAt(result.length() - 1);
         return result.toString();
+    }
+
+    /**
+     * 实现对binlog监听到的日期格式解析
+     * 格式：Tue Jan 01 08:00:00 CST 2019
+     * @param dateString
+     * @return
+     */
+    public static Date parseStringDate(String dateString){
+
+        try {
+
+            DateFormat dateFormat = new SimpleDateFormat(
+                    "EEE MMM dd HH:mm:ss zzz yyyy",
+                    Locale.US
+            );
+            return DateUtils.addHours(
+                    dateFormat.parse(dateString),
+                    -8
+            );
+        } catch (ParseException ex){
+            log.error("parseStringDate error: {}", dateString);
+            return null;
+        }
     }
 }

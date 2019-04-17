@@ -1,7 +1,7 @@
 package com.lining.ad.index.interest;
 
 import com.lining.ad.index.IndexAware;
-import com.lining.ad.untils.CommonUtils;
+import com.lining.ad.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;

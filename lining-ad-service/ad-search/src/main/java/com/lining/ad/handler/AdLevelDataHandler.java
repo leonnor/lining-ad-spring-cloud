@@ -16,7 +16,7 @@ import com.lining.ad.index.district.UnitDistrictIndex;
 import com.lining.ad.index.interest.UnitItIndex;
 import com.lining.ad.index.keyword.UnitKeywordIndex;
 import com.lining.ad.mysql.constant.OpType;
-import com.lining.ad.untils.CommonUtils;
+import com.lining.ad.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
