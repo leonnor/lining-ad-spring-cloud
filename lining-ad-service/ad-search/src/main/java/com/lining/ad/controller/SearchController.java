@@ -5,6 +5,9 @@ import com.lining.ad.annotation.IgnoreResponseAdvice;
 import com.lining.ad.client.SponsorClient;
 import com.lining.ad.client.vo.AdPlan;
 import com.lining.ad.client.vo.AdPlanGetRequest;
+import com.lining.ad.search.ISearch;
+import com.lining.ad.search.vo.SearchRequest;
+import com.lining.ad.search.vo.SearchResponse;
 import com.lining.ad.vo.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +30,22 @@ import java.util.List;
 @RestController
 public class SearchController {
 
+    private final ISearch iSearch;
     private final RestTemplate restTemplate;
     private final SponsorClient sponsorClient;
 
     @Autowired
-    public SearchController(RestTemplate restTemplate, SponsorClient sponsorClient) {
+    public SearchController(ISearch iSearch, RestTemplate restTemplate, SponsorClient sponsorClient) {
+        this.iSearch = iSearch;
         this.restTemplate = restTemplate;
         this.sponsorClient = sponsorClient;
+    }
+
+    @PostMapping("/fetchAds")
+    public SearchResponse fetchAds(@RequestBody SearchRequest request) {
+
+        log.info("ad-search: fetchAds -> {}", JSON.toJSONString(request));
+        return iSearch.fetchAds(request);
     }
 
     @IgnoreResponseAdvice
