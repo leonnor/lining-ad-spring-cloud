@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ad-common" />
+        <module name="ad-dashboard" />
         <module name="ad-eureka" />
         <module name="ad-gateway" />
         <module name="ad-search" />
